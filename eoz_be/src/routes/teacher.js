@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const auth = require('../middleware/auth.js');
+const authTeacher = require('../middleware/authTeacher.js');
+const authClass = require('../middleware/authClass.js');
+const testController = require('../app/controllers/TestController');
+const classController = require('../app/controllers/ClassController.js');
+const authStudent = require('../middleware/authStudent.js');
+router.post('/createclass', auth, authTeacher, classController.create);
+router.post('/createTest/:idClass', auth, authTeacher, authClass, testController.createTest);
+module.exports = router;

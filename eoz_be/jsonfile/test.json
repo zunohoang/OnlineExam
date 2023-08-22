@@ -1,0 +1,41 @@
+{
+    "id": 1,
+    "class": "12A2",
+    "name": "Kiểm tra 15p môn Lý",
+    "numberQuestion": "15",
+    "numberTake": "6",
+    "pass": "none",
+    "teacher": "Mr. Hoàng 2",
+    "question": [
+        {
+            "content": "1 + 1 = ?",
+            "key": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+        {
+            "content": "1 + 2 = ?",
+            "key": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        }
+    ],
+    "dashboard": [
+        {
+            "name": "Nguyễn Văn Hoàng",
+            "class": "12A2",
+            "id": 1,
+            "key": [
+                2,
+                1
+            ],
+            "point": 5
+        }
+    ]
+}
