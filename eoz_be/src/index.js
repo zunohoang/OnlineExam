@@ -6,7 +6,7 @@ const port = 3000;
 const db = require('./config/db/index.js');
 const route = require('./routes/index.js');
 const jwt = require('jsonwebtoken');
-// hêllo
+
 db.connect();
 
 app.use(express.static(path.join(__dirname, 'public')));

@@ -8,6 +8,8 @@ import MyClass from '../views/student/MyClass.vue'
 import Test from '../views/student/Test.vue'
 import TakeTest from '../views/student/TakeTest.vue'
 import Point from '../views/student/Point.vue'
+import ClassManager from '../views/teacher/ClassManager.vue'
+import Teacher from '../views/teacher/Teacher.vue'
 
 const routes = [
     {
@@ -51,6 +53,30 @@ const routes = [
         path: '/take-test/:id',
         component: TakeTest,
     },
+    {
+        path: '/teacher',
+        component: Teacher,
+        children: [
+            {
+                path: 'manager',
+                component: ClassManager,
+                children: [
+                    {
+                        name: 'createTest',
+                        path: 'createtest',
+                    },
+                    {
+                        name: 'classManager',
+                        path: 'classmanager',
+                    },
+                    {
+                        name: 'myTest',
+                        path: 'mytest'
+                    }
+                ]
+            },
+        ]
+    }
 ]
 
 export default createRouter({
