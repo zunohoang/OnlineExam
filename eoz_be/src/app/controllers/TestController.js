@@ -2,7 +2,8 @@ const Room = require('../models/Room.js');
 const Test = require('../models/Test.js')
 const express = require('express');
 const app = express();
-
+const fs = require('fs');
+const pdf = require('pdf-parse');
 class TestController {
 
     createTestv2(req, res, next) {
@@ -19,7 +20,97 @@ class TestController {
                 return res.status(500).send({ msg: "Error occured" });
             }
             // returing the response with file path and name
-            return res.send({ name: myFile.name, path: `/${myFile.name}` });
+            let dataBuffer = fs.readFileSync(`${__dirname}/../../public/${myFile.name}`);
+            pdf(dataBuffer).then(function (data) {
+                console.log(data.text);
+
+                function extra(x) {
+                    var res = [];
+                    var start = 0;
+                    var end;
+                    for (var i = 0; i < x.length; i++) {
+                        var s = x[i] + x[i + 1] + x[i + 2];
+                        if (s == "Câu") {
+                            end = i;
+
+                            console.log(i);
+                            res.push(x.slice(start, end));
+
+                            start = i;
+                        }
+                    }
+                    var obj = [];
+                    res.push(x.slice(end, x.search('--Hết--')));
+                    for (var i = 0; i < res.length; i++) {
+                        var a = res[i].slice(res[i].search("A."), res[i].length - 1);
+                        var A = a.slice(0, a.search("B.")).trim();
+                        var B = a.slice(a.search("B."), a.search("C.")).trim();
+                        var C = a.slice(a.search("C."), a.search("D.")).trim();
+                        var D = a.slice(a.search("D."), a.length - 1).trim();
+                        obj.push({
+                            content: res[i].slice(0, res[i].search("A.")),
+                            key: [A, B, C, D]
+                        });
+                    }
+                    return obj;
+                }
+
+                var Text = data.text;
+
+                var Qx = extra(Text)
+                var i = 0;
+                var test = {
+                    name: req.body.name,
+                    timeCreate: new Date(),
+                    timeLimit: null,
+                    timeTake: req.body.timeTake,
+                    question: Qx,
+                    keyTrue: req.body.keyTrue,
+                    dashboard: [],
+                }
+                /*
+                        {
+                            name: "ABC",
+                            timeCreate: new Date(),
+                            timeLimit: null,
+                            timeTake: 15,
+                            numberTake: 0,
+                            question: [
+                                {
+                                    content: "1 + 1 = ?",
+                                    key: [1,2,3,4]
+                                },
+                                {
+                                    content: "1 + 2 = ?",
+                                    key: [1,2,3,4]
+                                }
+                            ],
+                            keyTrue: [1,2],
+                            dashboard: [],
+                        }
+                        */
+
+                const filter = {
+                    _id: req.params.idClass,
+                };
+                const update = {
+                    $push: {
+                        "test": test
+                    }
+                };
+                const options = {
+                    new: true,
+                };
+
+                Room.updateOne(filter, update, options)
+                    .then(createdTest => {
+                        res.json({ mes: 'ok' });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.json(err);
+                    })
+            });
         });
     }
 
