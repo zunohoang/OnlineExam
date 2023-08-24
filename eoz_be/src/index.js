@@ -6,11 +6,15 @@ const port = 3000;
 const db = require('./config/db/index.js');
 const route = require('./routes/index.js');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 db.connect();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('combined'));
+app.use(cors()); // it enables all cors requests
+app.use(fileUpload());
 
 app.use(express.urlencoded({
   extended: true

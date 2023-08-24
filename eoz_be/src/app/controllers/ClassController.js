@@ -20,34 +20,44 @@ class ClassController {
 
     // GET /v1/getAllClass
     getAll(req, res, next) {
-        Room.find({
-            sdtStudent: req.user.sdt
-        })
-            .then(data => {
-                if (data != (null && [])) {
-                    var x = data.map((w) => {
-                        return {
-                            _id: w._id,
-                            name: w.name,
-                            timeCreate: w.timeCreate,
-                            teacher: w.teacher,
-                            test: w.test.map((v) => {
-                                return {
-                                    _id: v._id,
-                                    name: v.name,
-                                    timeCreate: v.timeCreate,
-                                    numberTake: v.numberTake,
-                                    timeTake: v.timeTake,
-                                    numberQuestion: v.question.length
-                                }
-                            })
-                        }
-                    });
-                    res.send(x);
-                } else {
-                    res.json({ mes: 'khong tim thay' })
-                }
+        if (req.user.role == "student") {
+            Room.find({
+                sdtStudent: req.user.sdt
             })
+                .then(data => {
+                    if (data != (null && [])) {
+                        var x = data.map((w) => {
+                            return {
+                                _id: w._id,
+                                name: w.name,
+                                timeCreate: w.timeCreate,
+                                teacher: w.teacher,
+                                test: w.test.map((v) => {
+                                    return {
+                                        _id: v._id,
+                                        name: v.name,
+                                        timeCreate: v.timeCreate,
+                                        numberTake: v.numberTake,
+                                        timeTake: v.timeTake,
+                                        numberQuestion: v.question.length
+                                    }
+                                })
+                            }
+                        });
+                        res.send(x);
+                    } else {
+                        res.json({ mes: 'khong tim thay' })
+                    }
+                })
+        } else {
+            Room.find({
+                sdtTeacher: req.user.sdt
+            })
+                .then(data => {
+                    res.json(data)
+                })
+                .catch()
+        }
     }
 
     // DELETE /v1/deleteClass
