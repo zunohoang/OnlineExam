@@ -104,7 +104,10 @@ class TestController {
 
                 Room.updateOne(filter, update, options)
                     .then(createdTest => {
-                        res.json({ mes: 'ok' });
+                        res.json({
+                            mes: 'ok',
+                            test: test,
+                        });
                     })
                     .catch(err => {
                         console.log(err);
