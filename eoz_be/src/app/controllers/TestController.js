@@ -12,7 +12,6 @@ class TestController {
         }
         // accessing the file
         const myFile = req.files.file;
-
         //  mv() method places the file inside public directory
         myFile.mv(`${__dirname}/../../public/${myFile.name}`, function (err) {
             if (err) {
@@ -59,13 +58,14 @@ class TestController {
 
                 var Qx = extra(Text)
                 var i = 0;
+                var x = JSON.parse(req.body.data);
                 var test = {
-                    name: req.body.name,
+                    name: x.name,
                     timeCreate: new Date(),
                     timeLimit: null,
-                    timeTake: req.body.timeTake,
+                    timeTake: x.timeTake,
                     question: Qx,
-                    keyTrue: req.body.keyTrue,
+                    keyTrue: x.keyTrue,
                     dashboard: [],
                 }
                 /*
@@ -89,7 +89,6 @@ class TestController {
                             dashboard: [],
                         }
                         */
-
                 const filter = {
                     _id: req.params.idClass,
                 };
@@ -101,12 +100,13 @@ class TestController {
                 const options = {
                     new: true,
                 };
-
+                console.log(req.files.body)
                 Room.updateOne(filter, update, options)
                     .then(createdTest => {
                         res.json({
                             mes: 'ok',
                             test: test,
+                            x: req.body.data
                         });
                     })
                     .catch(err => {
@@ -189,7 +189,6 @@ class TestController {
 
     // GET /v1/getTest
     getTest(req, res, next) {
-
         Room.findOne({
             "test._id": req.params.idTest
         }, "test.question test._id")

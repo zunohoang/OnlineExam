@@ -8,4 +8,5 @@ const classController = require('../app/controllers/ClassController.js');
 const authStudent = require('../middleware/authStudent.js');
 router.post('/createclass', auth, authTeacher, classController.create);
 router.post('/createTest/:idClass', auth, authTeacher, authClass, testController.createTestv2);
+router.get('/getStudent/:idClass', auth, authTeacher, authClass, classController.getStudent);
 module.exports = router;

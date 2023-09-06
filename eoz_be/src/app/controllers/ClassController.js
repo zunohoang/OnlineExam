@@ -52,7 +52,7 @@ class ClassController {
         } else {
             Room.find({
                 sdtTeacher: req.user.sdt
-            })
+            }, "name student")
                 .then(data => {
                     res.json(data)
                 })
@@ -63,6 +63,19 @@ class ClassController {
     // DELETE /v1/deleteClass
     delete(req, res, next) {
 
+    }
+
+    getStudent(req, res, next) {
+        Room.findOne({
+            _id: req.params.idClass
+        }, "nameStudent")
+            .then(data => {
+                console.log(data)
+                res.json(data)
+            })
+            .catch(err => {
+                res.json(err)
+            })
     }
 
 }

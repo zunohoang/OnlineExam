@@ -8,11 +8,14 @@ import MyClass from '../views/student/MyClass.vue'
 import Test from '../views/student/Test.vue'
 import TakeTest from '../views/student/TakeTest.vue'
 import Point from '../views/student/Point.vue'
-import classManager from '../views/teacher/classManager.vue'
+import roomManager from '../views/teacher/roomManager.vue'
 import Teacher from '../views/teacher/Teacher.vue'
 import Manager from '../views/teacher/Manager.vue'
 import createTest from '../views/teacher/createTest.vue'
 import myTest from '../views/teacher/myTest.vue'
+import roomidManager from '../views/teacher/roomidManager.vue'
+import studentsManager from '../views/teacher/studentsManager.vue'
+import testsManager from '../views/teacher/testsManager.vue'
 
 const routes = [
     {
@@ -70,11 +73,28 @@ const routes = [
                         component: createTest,
                     },
                     {
-                        name: 'classManager',
-                        path: 'classmanager',
-                        component: classManager,
+                        name: 'room',
+                        path: 'room',
+                        component: roomManager,
                     },
                     {
+                        name: 'roomid',
+                        path: 'room/:_id',
+                        component: roomidManager,
+                        children: [
+                            {
+                                name: 'students',
+                                path: 'students',
+                                component: studentsManager
+                            },
+                            {
+                                name: 'tests',
+                                path: 'tests',
+                                component: testsManager
+                            }
+                        ]
+                    }
+                    , {
                         name: 'myTest',
                         path: 'mytest',
                         component: myTest,

@@ -27,11 +27,15 @@ const subTest = new mongoose.Schema({
     keyTrue: Array,
     dashboard: [subUser],
 })
-
+const subStudent = new mongoose.Schema({
+    name: String,
+    sdt: String,
+})
 const Room = new Schema({
     id: Number,
     name: String,
     timeCreate: String,
+    student: [subStudent],
     teacher: String,
     sdtTeacher: String,
     _idTeacher: String,

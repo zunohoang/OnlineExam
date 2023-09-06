@@ -27,7 +27,7 @@ export default {
                         VueCookies.set('role', response.data.role, "1d");
                         if (response.data.role == 'student') {
                             window.location.assign('../student/class')
-                        } else window.location.assign('../teacher/classManager')
+                        } else window.location.assign('../teacher/manager/room')
                     } else alert('Sai tài khoản hoặc mật khẩu');
                 })
                 .catch(e => {
